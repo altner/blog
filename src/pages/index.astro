@@ -14,7 +14,7 @@ const posts = (await getCollection("blog")).sort(
       {
         posts.map((post) => (
           <li>
-            <a href={`${import.meta.env.BASE_URL}posts/${post.id}/`}>
+            <a href={`posts/${post.id}/`}>
               {post.data.title}
             </a>
             <time datetime={post.data.date.toISOString()}>
@@ -30,3 +30,47 @@ const posts = (await getCollection("blog")).sort(
     </ul>
   </main>
 </BaseLayout>
+
+<style>
+  main {
+    max-width: 65ch;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  a {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  time {
+    font-size: 0.85rem;
+    color: #777;
+    font-style: italic;
+  }
+</style>

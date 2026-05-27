@@ -9,8 +9,17 @@
 }
 
 body {
-  line-height: 1.5;
+  font-family: "Lora", Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.75;
+  color: #1c1c1c;
+  background-color: #fffffe;
   -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 3px;
 }
 
 img,

@@ -1,0 +1,37 @@
+{
+  "name": "ky-astro-starter",
+  "author": "Ky Decker <hi@ky.fyi> (https://ky.fyi/)",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check && biome check",
+    "check:fix": "astro check && biome check --write"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "./node_modules/.bin/nano-staged"
+  },
+  "nano-staged": {
+    "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,json,jsonc,css,astro}": [
+      "biome check --write"
+    ]
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.3.7",
+    "nano-staged": "^1.0.2",
+    "simple-git-hooks": "^2.13.1",
+    "smartypants": "^0.2.2",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "sharp": "^0.34.5"
+  }
+}

@@ -1,6 +1,3 @@
-@import "@fontsource-variable/lora";
-@import "@fontsource-variable/lora/index-italic.css";
-
 *,
 *::before,
 *::after {
@@ -12,7 +9,7 @@
 }
 
 body {
-  font-family: "Lora Variable", Georgia, "Times New Roman", serif;
+  font-family: var(--font-lora), Georgia, "Times New Roman", serif;
   font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   line-height: 1.75;
   color: #1c1c1c;

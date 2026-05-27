@@ -1,4 +1,6 @@
 ---
+import { Font } from "astro:assets";
+
 import "@/styles/global.css";
 
 import smartypants from "smartypants";
@@ -26,6 +28,7 @@ const pageTitle = `${title} · ${siteName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
+    <Font cssVariable="--font-lora" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title set:html={smartypants(pageTitle, 1)} />
     <meta name="description" content={smartypants(description, 1)} />

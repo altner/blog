@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://altner.github.io/blog",
+  base: "/blog",
   devToolbar: {
     enabled: false,
   },

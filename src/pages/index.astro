@@ -6,7 +6,6 @@ const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <BaseLayout title="Blog" description="Alle Beiträge">
@@ -16,7 +15,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       {
         posts.map((post) => (
           <li>
-            <a href={`${base}/${post.id}/`}>
+            <a href={`${import.meta.env.BASE_URL}${post.id}/`}>
               {post.data.title}
             </a>
             <time datetime={post.data.date.toISOString()}>

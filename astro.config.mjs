@@ -9,7 +9,6 @@ export default defineConfig({
   },
   integrations: [sitemap()],
   trailingSlash: "always",
-  prefetch: true,
   vite: {
     ssr: {
       noExternal: ["smartypants"],

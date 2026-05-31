@@ -10,33 +10,43 @@ const siteName = "Adrian Altner";
 export interface Props {
   title?: string;
   description?: string;
+  ogType?: "website" | "article";
   image?: {
     src: string;
     alt: string;
   };
 }
 
-const { title, description = siteName, image } = Astro.props;
+const {
+  title,
+  description = siteName,
+  ogType = "website",
+  image,
+} = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = title ? `${title} · ${siteName}` : siteName;
+const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
 ---
 
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href={`${import.meta.env.BASE_URL}rss.xml`} />
     <Font cssVariable="--font-lora" preload />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <title set:html={smartypants(pageTitle, 1)} />
+    <meta name="google-site-verification" content="7OKTWLUmXH0vphbsmOxupqFwNlU_U4nu7d9jUa-MsLg" />
+    <meta name="author" content={siteName} />
     <meta name="description" content={smartypants(description, 1)} />
     <meta property="og:title" content={smartypants(title ?? siteName, 1)} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:description" content={smartypants(description, 1)} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="de_DE" />
     <meta property="og:site_name" content={siteName} />
     {
       image && (
@@ -46,6 +56,7 @@ const pageTitle = title ? `${title} · ${siteName}` : siteName;
         </>
       )
     }
+    <slot name="head" />
   </head>
   <body>
     <slot />

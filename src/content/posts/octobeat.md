@@ -7,7 +7,9 @@ date: 2026-05-31
 Was wäre, wenn ein Nachrichtenaggregator nicht von Redakteuren kuratiert wird, sondern von echten
 Menschen – die auf Mastodon und Bluesky teilen, was sie wirklich lesenswert finden?
 
-Genau das ist **OctoBeat**. Ein Projekt, das ich in den letzten 4–5 Tagen gebaut habe.
+Genau das ist **OctoBeat**. Ein Projekt, das ich in wenigen Tagen gebaut habe und das jetzt
+täglich läuft, um ein Gefühl dafür zu bekommen, was im deutschsprachigen unabhängigen Web
+gerade Thema ist.
 
 Der Deploy erfolgt nicht automatisch auf einem festen Zeitplan – sondern immer dann, wenn ich
 lokal den Crawler laufen lasse, die Ergebnisse committe und pushe. GitHub Actions baut daraus
@@ -22,12 +24,15 @@ gefolgten Accounts zählt mehr als einer von einem frisch angelegten Profil.
 Außerdem fließt die **Aktualität** stark ins Ranking ein – ein Artikel der vor 40 Stunden geteilt
 wurde verliert erheblich an Gewicht gegenüber einem von heute Morgen.
 
+Wichtig: OctoBeat konzentriert sich bewusst auf **unabhängige Blogs und Non-Profit-Medien** –
+keine Verlage, keine Kommerzportale. Die Quellenliste ist offen und über GitHub Issues erweiterbar.
+
 ## Wie es funktioniert
 
 Ein Python-Crawler läuft lokal durch:
 
-1. **RSS-Feeds** von 14 unabhängigen Blogs und Non-Profit-Quellen liefern die Domains
-2. Das **Fediverse** (Mastodon, 8 Instanzen) liefert zusätzlich **Trending Links** direkt über
+1. **RSS-Feeds** von 13 unabhängigen Blogs und Non-Profit-Quellen liefern die Domains
+2. Das **Fediverse** (Mastodon, 8 Instanzen) liefert **Trending Links** direkt über
    die Instanz-API – Artikel die gerade instanzweit geteilt werden
 3. **Mastodon** und **Bluesky** werden nach Posts durchsucht, die Links zu diesen Domains
    enthalten – jeder dieser Posts wird als **Syndication URL** gespeichert: der direkte Link
@@ -37,6 +42,7 @@ Ein Python-Crawler läuft lokal durch:
 6. Nur Artikel mit mindestens einem Mastodon- oder Bluesky-Signal kommen in den Feed
 
 Das Ergebnis landet als `feed.json` im Git-Repository, das den Deploy auslöst.
+GitHub Actions baut daraus in etwa zwei Minuten die statische Seite – kein Server, kein Backend.
 
 ## Der spannende Teil: Embedding-Klassifikator
 
@@ -59,21 +65,29 @@ werden müssen.
 ## Was ich gelernt habe
 
 Das Schwierigste war nicht der Algorithmus, sondern die **Datenqualität**. URLs wie
-`winfuture.de/news,159002.htmlvia` (das `via` klebt an der URL), Seiten die `<title>status</title>`
-zurückgeben, Mastodon-Instanzen bei denen die Such-API deaktiviert ist – das echte Internet ist
-unordentlich.
+`winfuture.de/news,159002.htmlvia` (das `via` klebt an der URL), WordPress-Seiten die
+`<title>status</title>` zurückgeben, Mastodon-Instanzen bei denen die Such-API deaktiviert ist,
+AMP-Duplikate durch Jetpack-Links – das echte Internet ist unordentlich.
 
 Die SQLite-Datenbank akkumuliert über Zeit: Curator-Gewichtungen, Feed-Bewertungen,
-Embedding-Cache, Tag-Korrekturen. Wenn die Datenbank verloren geht, exportiert das System
-nach jedem Run eine `computed.json` – lesbar, versioniert in Git, und automatisch als
-Wiederherstellungsquelle genutzt.
+Embedding-Cache, Tag-Korrekturen, WordPress-Engagement-Daten. Wenn die Datenbank verloren geht,
+exportiert das System nach jedem Run eine `computed.json` – lesbar, versioniert in Git,
+und automatisch als Wiederherstellungsquelle genutzt.
+
+## Was die Seite zeigt
+
+Neben dem eigentlichen Feed gibt es drei weitere Seiten:
+
+- **Inspector** – alle Artikel mit Plattform-Labels, Curatoren und Syndication-Links
+- **Metrics** – Statistiken über die Kategorisierung: welche Keywords feuern, welche RSS-Tags
+  noch nicht gemappt sind, Top-Curatoren nach Plattform
+- **Settings** – die aktive Quellenliste (lokal bearbeitbar, im Deploy read-only)
 
 ## Was noch kommt
 
-- **Stufe 3**: Die gesammelten Daten sollen dem System helfen zu lernen, welche Curatoren
-  welche Themen zuverlässig teilen – und die Gewichte automatisch anpassen
-- Mehr unabhängige Quellen
-- Vielleicht ein wöchentliches Digest per RSS
+Nach 1–2 Wochen Laufzeit hat die SQLite-Datenbank genug History für **Stufe 3**:
+das System lernt automatisch, welche Curatoren welche Themen zuverlässig teilen –
+und passt die Gewichte ohne manuellen Eingriff an.
 
 Der Code ist open source unter MIT-Lizenz:
 [github.com/altner/octobeat](https://github.com/altner/octobeat)

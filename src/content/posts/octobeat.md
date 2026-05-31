@@ -1,6 +1,6 @@
 ---
-title: "OctoBeat – ein sozialer Nachrichtenaggregator für die deutschsprachige Blogosphäre"
-description: "Wie ich mit Python, Mastodon, Bluesky und einem Embedding-Klassifikator einen News-Aggregator gebaut habe, der Artikel nach echten Social Signals rankt."
+title: "OctoBeat – ein sozialer Nachrichtenaggregator für unabhängige deutschsprachige Blogs"
+description: "Wie ich mit Python, Mastodon, Bluesky und einem Embedding-Klassifikator einen News-Aggregator gebaut habe, der Artikel nach echten Social Signals aus dem Fediverse rankt."
 date: 2026-05-31
 ---
 
@@ -26,11 +26,15 @@ wurde verliert erheblich an Gewicht gegenüber einem von heute Morgen.
 
 Ein Python-Crawler läuft lokal durch:
 
-1. **RSS-Feeds** von 24 deutschsprachigen Quellen liefern die Domains
-2. Das **Fediverse** (Mastodon, 9 Instanzen) und **Bluesky** werden nach Posts durchsucht, die Links zu diesen Domains enthalten – jeder dieser Posts wird als **Syndication URL** gespeichert: der direkte Link zum sozialen Post der den Artikel geteilt hat
-3. Jedes Signal wird gewichtet: Follower-Zahl, Follower/Following-Ratio, Plattform-Bonus
-4. Artikel werden gescort: `Gewicht × log₂(unique Curatoren + 1) × 1/(Alter+2)^1.4 × 1000`
-5. Nur Artikel mit mindestens einem Mastodon- oder Bluesky-Signal kommen in den Feed
+1. **RSS-Feeds** von 14 unabhängigen Blogs und Non-Profit-Quellen liefern die Domains
+2. Das **Fediverse** (Mastodon, 8 Instanzen) liefert zusätzlich **Trending Links** direkt über
+   die Instanz-API – Artikel die gerade instanzweit geteilt werden
+3. **Mastodon** und **Bluesky** werden nach Posts durchsucht, die Links zu diesen Domains
+   enthalten – jeder dieser Posts wird als **Syndication URL** gespeichert: der direkte Link
+   zum sozialen Post der den Artikel geteilt hat
+4. Jedes Signal wird gewichtet: Follower-Zahl, Follower/Following-Ratio, Plattform-Bonus
+5. Artikel werden gescort: `Gewicht × log₂(unique Curatoren + 1) × 1/(Alter+2)^1.4 × 1000`
+6. Nur Artikel mit mindestens einem Mastodon- oder Bluesky-Signal kommen in den Feed
 
 Das Ergebnis landet als `feed.json` im Git-Repository, das den Deploy auslöst.
 
@@ -68,7 +72,7 @@ Wiederherstellungsquelle genutzt.
 
 - **Stufe 3**: Die gesammelten Daten sollen dem System helfen zu lernen, welche Curatoren
   welche Themen zuverlässig teilen – und die Gewichte automatisch anpassen
-- Mehr deutschsprachige Quellen
+- Mehr unabhängige Quellen
 - Vielleicht ein wöchentliches Digest per RSS
 
 Der Code ist open source unter MIT-Lizenz:
